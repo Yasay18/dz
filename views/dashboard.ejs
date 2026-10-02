@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+</head>
+<body>
+
+  <h1><%= title %></h1>
+
+  <p>Пользователь:<%= user.fio %></p>
+
+  <h2>Мои заявки</h2>
+
+  <ul>
+    <% requests.forEach(request => { %>
+      <li><%= request.room_name %> — <%= request.status %>
+      </li><% }) %></ul>
+
+</body>
+</html>
