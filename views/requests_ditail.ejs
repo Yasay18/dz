@@ -1,0 +1,41 @@
+<%- include('header', { title: `Заявка №${request.id}` }) %>
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+  <h1 class="h2 mb-0">Заявка №<%= request.id %></h1>
+  <a href="<%= isAdmin ? '/admin' : '/dashboard' %>" class="btn btn-outline-secondary">Назад к заявкам</a>
+</div>
+<div class="card mb-4"><div class="card-body">
+  <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <h2 class="h4 mb-0"><%= request.room_name %></h2>
+    <span class="badge bg-<%= request.status === 'Новая' ? 'secondary' : request.status === 'Мероприятие назначено' ? 'primary' : 'success' %>"><%= request.status %></span>
+  </div>
+  <dl class="row mb-0">
+    <dt class="col-sm-4">Тип помещения</dt><dd class="col-sm-8"><%= request.room_type %></dd>
+    <dt class="col-sm-4">Вместимость</dt><dd class="col-sm-8"><%= request.room_capacity %></dd>
+    <dt class="col-sm-4">Дата конференции</dt><dd class="col-sm-8"><%= request.date_start %></dd>
+    <dt class="col-sm-4">Способ оплаты</dt><dd class="col-sm-8"><%= request.payment %></dd>
+    <% if (isAdmin) { %>
+      <dt class="col-sm-4">Заявитель</dt><dd class="col-sm-8"><%= request.user_fio %> (<%= request.user_login %>)</dd>
+      <dt class="col-sm-4">Телефон</dt><dd class="col-sm-8"><%= request.user_phone %></dd>
+      <dt class="col-sm-4">Email</dt><dd class="col-sm-8"><%= request.user_email %></dd>
+    <% } %>
+  </dl>
+</div></div>
+<div class="card"><div class="card-body">
+  <h2 class="h5">Отзыв</h2>
+  <% if (request.review) { %>
+    <p class="mb-0"><%= request.review %></p>
+  <% } else if (isOwner && request.status === 'Завершено') { %>
+    <form method="POST" action="/review/<%= request.id %>">
+      <div class="mb-3">
+        <label class="form-label" for="review">Поделитесь впечатлением</label>
+        <textarea id="review" class="form-control" name="review" rows="4" maxlength="2000" required></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">Отправить отзыв</button>
+    </form>
+  <% } else if (request.status !== 'Завершено') { %>
+    <p class="text-muted mb-0">Оставить отзыв можно после завершения заявки.</p>
+  <% } else { %>
+    <p class="text-muted mb-0">Отзыв пока не оставлен.</p>
+  <% } %>
+</div></div>
+<%- include('footer') %>

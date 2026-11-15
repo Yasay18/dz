@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= typeof title !== "undefined" ? title : "Конференции.РФ" %></title>
+  <link rel="icon" href="/img/favicon.ico">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="/">Конференции.РФ</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Открыть меню">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="/rooms">Помещения</a></li>
+          <li class="nav-item"><a class="nav-link" href="/about">О портале</a></li>
+          <% if (currentUser) { %>
+            <% if (isAdmin) { %>
+              <li class="nav-item"><a class="nav-link" href="/admin">Панель администратора</a></li>
+            <% } else { %>
+              <li class="nav-item"><a class="nav-link" href="/dashboard">Мои заявки</a></li>
+              <li class="nav-item"><a class="nav-link" href="/create">Новая заявка</a></li>
+            <% } %>
+            <li class="nav-item"><span class="navbar-text px-2"><%= currentUser.fio %></span></li>
+            <li class="nav-item">
+              <form method="POST" action="/logout" class="m-0">
+                <button class="btn btn-outline-light btn-sm" type="submit">Выйти</button>
+              </form>
+            </li>
+          <% } else { %>
+            <li class="nav-item"><a class="nav-link" href="/register">Регистрация</a></li>
+            <li class="nav-item"><a class="nav-link" href="/login">Вход</a></li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <main class="container mt-4 mb-5">

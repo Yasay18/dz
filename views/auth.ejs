@@ -1,0 +1,63 @@
+<%- include('header', { title: mode === 'register' ? 'Регистрация' : 'Вход' }) %>
+<div class="row justify-content-center">
+  <div class="col-md-7 col-lg-6">
+    <div class="card"><div class="card-body p-4">
+      <% if (flash) { %><div class="alert alert-<%= flash.type %>"><%= flash.text %></div><% } %>
+      <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+      <ul class="nav nav-tabs mb-3" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link <%= mode === 'register' ? 'active' : '' %>" data-bs-toggle="tab" data-bs-target="#register-tab" type="button" role="tab">Регистрация</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link <%= mode === 'login' ? 'active' : '' %>" data-bs-toggle="tab" data-bs-target="#login-tab" type="button" role="tab">Вход</button>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade <%= mode === 'register' ? 'show active' : '' %>" id="register-tab" role="tabpanel">
+          <% if (mode === 'register' && errors.length) { %>
+            <div class="alert alert-danger"><ul class="mb-0"><% errors.forEach((e) => { %><li><%= e %></li><% }) %></ul></div>
+          <% } %>
+          <form method="POST" action="/register">
+            <div class="mb-3">
+              <label class="form-label" for="reg-login">Логин</label>
+              <input id="reg-login" class="form-control" name="login" value="<%= form.login || '' %>" minlength="6" pattern="[A-Za-z0-9]{6,}" autocomplete="username" required>
+              <div class="form-text">Латиница и цифры, минимум 6 символов.</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="reg-password">Пароль</label>
+              <input id="reg-password" class="form-control" type="password" name="password" minlength="8" autocomplete="new-password" required>
+              <div class="form-text">Минимум 8 символов.</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="reg-fio">ФИО</label>
+              <input id="reg-fio" class="form-control" name="fio" value="<%= form.fio || '' %>" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="reg-phone">Телефон</label>
+              <input id="reg-phone" class="form-control" name="phone" value="<%= form.phone || '' %>" placeholder="8(999)123-45-67" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="reg-email">Email</label>
+              <input id="reg-email" class="form-control" type="email" name="email" value="<%= form.email || '' %>" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Создать пользователя</button>
+          </form>
+        </div>
+        <div class="tab-pane fade <%= mode === 'login' ? 'show active' : '' %>" id="login-tab" role="tabpanel">
+          <form method="POST" action="/login">
+            <div class="mb-3">
+              <label class="form-label" for="login">Логин</label>
+              <input id="login" class="form-control" name="login" autocomplete="username" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="password">Пароль</label>
+              <input id="password" class="form-control" type="password" name="password" autocomplete="current-password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Войти</button>
+          </form>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div>
+<%- include('footer') %>
